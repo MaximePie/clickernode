@@ -61,17 +61,22 @@ const socketIo = require("socket.io");
 const io = socketIo(server);
 
 let interval;
+let counter = 0;
 
 io.on("connection", (socket) => {
   console.log("New client connected");
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
+  io.sockets.emit('Test', 'Nouveau client connecté !');
+
   socket.on("disconnect", () => {
     console.log("Client disconnected");
     clearInterval(interval);
   });
+
+  socket.on('incrementCounter', () => {
+    counter++;
+    console.log("Sending value " + counter);
+    io.sockets.emit('counterUpdate', counter);
+  })
 });
 
 const getApiAndEmit = socket => {
