@@ -60,16 +60,12 @@ const socketIo = require("socket.io");
 
 const io = socketIo(server);
 
-let interval;
 let counter = 0;
 
 io.on("connection", (socket) => {
-  console.log("New client connected");
-  io.sockets.emit('Test', 'Nouveau client connecté !');
 
   socket.on("disconnect", () => {
     console.log("Client disconnected");
-    clearInterval(interval);
   });
 
   socket.on('incrementCounter', () => {
@@ -79,11 +75,6 @@ io.on("connection", (socket) => {
   })
 });
 
-const getApiAndEmit = socket => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", response);
-};
 
 const port = process.env.PORT || 4001
 
