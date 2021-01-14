@@ -73,13 +73,11 @@ io.on("connection", (socket) => {
 
 
     refreshInterval = setInterval(() => {
-        console.log("update with " + counter);
         io.sockets.emit('updateCounter', counter);
     }, 250);
 
     rateUpdateInterval = setInterval(() => {
       counter += rate;
-      console.log(counter);
     }, 1000);
 
     socket.on('incrementCounter', () => {
